@@ -7,16 +7,18 @@ ReadSpeakerHelper.Player = (function ($) {
     function Player() {
         jQuery(document).ready(function() {
             ReadSpeaker.q(function() {
-                rspkrElm = $rs.get('#listen');
+                rspkrElm = $rs.get(readspeakerHelper.targetElement);
+
+                rspkr.c.addEvent('onUIClosePlayer', function() {
+                    rspkrElm.innerHTML = readspeakerHelper.play;
+                    $rs.setAttr(rspkrElm, 'onclick', 'readpage(this.href, "' + readspeakerHelper.playerSelector + '"); return false;');
+                    rspkrElm.onclick = new Function('readpage(this.href, "' + readspeakerHelper.playerSelector + '"); return false;');
+                });
+
                 rspkr.c.addEvent('onUIShowPlayer', function() {
-                    rspkrElm.innerHTML = 'Sluta lyssna';
+                    rspkrElm.innerHTML = readspeakerHelper.stop;
                     $rs.setAttr(rspkrElm, 'onclick', 'rspkr.ui.getActivePlayer().close(); return false;');
                     rspkrElm.onclick = new Function("rspkr.ui.getActivePlayer().close(); return false;");
-                });
-                rspkr.c.addEvent('onUIClosePlayer', function() {
-                    rspkrElm.innerHTML = 'Lyssna';
-                    $rs.setAttr(rspkrElm, 'onclick', 'readpage(this.href, "read-speaker-player"); return false;');
-                    rspkrElm.onclick = new Function('readpage(this.href, "read-speaker-player"); return false;');
                 });
             });
         });

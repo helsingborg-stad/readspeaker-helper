@@ -33,6 +33,11 @@ class App
      */
     public function enqueueScripts()
     {
+        $posttypesEnabled = get_field('readspeaker-helper-enable-posttypes', 'option');
+        if (!is_array($posttypesEnabled) || !in_array(get_post_type(), $posttypesEnabled)) {
+            return;
+        }
+
         wp_register_script(
             'readspeaker',
             'http://f1.eu.readspeaker.com/script/5507/ReadSpeaker.js?pids=embhl',
@@ -49,6 +54,14 @@ class App
             '1.0.0',
             get_field('readspeaker-helper-script-footer', 'option')
         );
+
+        wp_localize_script('readspeaker-helper', 'readspeakerHelper', array(
+            'targetElement' => get_option('readspeaker-helper-target-selector', 'option'),
+            'playerElement' => get_option('readspeaker-helper-player-selector', 'option'),
+            'play' => 'Lyssna',
+            'stop' => 'Sluta lyssna'
+        ));
+
         wp_enqueue_script('readspeaker-helper');
     }
 }
