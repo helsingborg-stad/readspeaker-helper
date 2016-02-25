@@ -4,6 +4,11 @@ namespace ReadSpeakerHelper;
 
 class App
 {
+
+    private $customerId = null;
+    private $playButtonId = 'readspeaker-play-button';
+    private $playerId = 'readspeaker-player-element';
+
     public function __construct()
     {
         new \ReadSpeakerHelper\Options();
@@ -15,6 +20,8 @@ class App
 
     public function init()
     {
+        $this->customerId = get_field('readspeaker-helper-customer-id', 'option');
+
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
         add_filter('the_content', function ($content) {
@@ -24,19 +31,10 @@ class App
 
     public function getReadSpeakerTag()
     {
-        global $wp;
-
-        // Get current url
-        $currentUrl = home_url(add_query_arg(array(),$wp->request));
-
-        // Get readspekare settings
-        $playButtonId = 'readspeaker-play-button';
-        $playerId = 'readspeaker-player-element';
-
         // Readspeaker tag markup
         $readspeakerTag = '<div class="readspeaker-wrapper">';
-        $readspeakerTag .= '<a id="' . $playButtonId . '" onclick="javascript:readpage(this.href, \'' . $playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=5507&amp;lang=sv_se&amp;readid=article&amp;url=' . $currentUrl . '">Lyssna</a>';
-        $readspeakerTag .= '<div id="' . $playerId . '" class="rs_skip rs_preserve"></div>';
+        $readspeakerTag .= '<a id="' . $this->playButtonId . '" onclick="javascript:readpage(this.href, \'' . $this->playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . $this->customerId . '&amp;lang=sv_se&amp;readid=article&amp;url=' . $this->currentUrl() . '">Lyssna</a>';
+        $readspeakerTag .= '<div id="' . $this->playerId . '" class="rs_skip rs_preserve"></div>';
         $readspeakerTag .= '</div>';
 
         return $readspeakerTag;
@@ -64,7 +62,7 @@ class App
 
         wp_register_script(
             'readspeaker',
-            'http://f1.eu.readspeaker.com/script/5507/ReadSpeaker.js?pids=embhl',
+            'http://f1.eu.readspeaker.com/script/' . $this->customerId . '/ReadSpeaker.js?pids=embhl',
             array(),
             '1.0.0',
             get_field('readspeaker-helper-script-footer', 'option')
@@ -85,5 +83,11 @@ class App
         ));
 
         wp_enqueue_script('readspeaker-helper');
+    }
+
+    public function currentUrl()
+    {
+        global $wp;
+        return home_url(add_query_arg(array(), $wp->request));
     }
 }
