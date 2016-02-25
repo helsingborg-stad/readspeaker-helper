@@ -7,6 +7,7 @@ class App
     private static $customerId = null;
     private static $playButtonId = 'readspeaker-play-button';
     private static $playerId = 'readspeaker-player-element';
+    private static $readWrapperId = 'readspeaker-read';
 
     public function __construct()
     {
@@ -42,13 +43,17 @@ class App
     {
         self::$customerId = get_field('readspeaker-helper-customer-id', 'option');
 
+        if (get_field('readspeaker-helper-read-wrapper-id', 'option')) {
+            self::$readWrapperId = get_field('readspeaker-helper-read-wrapper-id', 'option');
+        }
+
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
         switch (get_field('readspeaker-helper-placement', 'option')) {
             case 'the_content':
                 add_filter('the_content', function ($content) {
                     do_action('ReadSpeakerHelper/before_the_readspeaker');
-                    return $this->getReadSpeakerTag() . $content;
+                    return $this->getReadSpeakerTag() . '<div id="' . self::$readWrapperId . '">' . $content . '</div>';
                 });
                 break;
         }
@@ -80,7 +85,7 @@ class App
         $classes = apply_filters('ReadSpeakerHelper/play_button_class', $classes);
         $classes = implode(' ', $classes);
 
-        $playButton = '<a id="' . self::$playButtonId . '" onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=sv_se&amp;readid=article&amp;url=' . self::currentUrl() . '" class="' . $classes . '">' . __('Listen', 'readspeaker-helper') . '</a>';
+        $playButton = '<a id="' . self::$playButtonId . '" onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=' . get_locale() . '&amp;readid=' . self::$readWrapperId . '&amp;url=' . self::currentUrl() . '" class="' . $classes . '">' . __('Listen', 'readspeaker-helper') . '</a>';
 
         return apply_filters('ReadSpeakerPlayer/play_button', $playButton);
     }

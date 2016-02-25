@@ -106,6 +106,35 @@
                 "readonly": 0
             },
             {
+                "key": "field_56cec4d6d9352",
+                "label": "Read selector",
+                "name": "readspeaker-helper-read-wrapper-id",
+                "type": "text",
+                "instructions": "ID selector to area of site to read",
+                "required": 1,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_56cead17a98c7",
+                            "operator": "==",
+                            "value": "manually"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "article",
+                "placeholder": "",
+                "prepend": "#",
+                "append": "",
+                "maxlength": "",
+                "readonly": 0,
+                "disabled": 0
+            },
+            {
                 "key": "field_56cead74a98c8",
                 "label": "Manual placement instructions",
                 "name": "",
