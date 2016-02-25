@@ -42,7 +42,7 @@ class App
 
     public static function getPlayButton()
     {
-        return '<a id="' . self::$playButtonId . '" onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=sv_se&amp;readid=article&amp;url=' . self::currentUrl() . '">Lyssna</a>';
+        return '<a id="' . self::$playButtonId . '" onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=sv_se&amp;readid=article&amp;url=' . self::currentUrl() . '">' . __('Listen', 'readspeaker-helper') . '</a>';
     }
 
     public static function getPlayer()
@@ -70,6 +70,9 @@ class App
             return;
         }
 
+        /**
+         * Enqueue readspeaker script
+         */
         wp_register_script(
             'readspeaker',
             'http://f1.eu.readspeaker.com/script/' . self::$customerId . '/ReadSpeaker.js?pids=embhl',
@@ -79,6 +82,9 @@ class App
         );
         wp_enqueue_script('readspeaker');
 
+        /**
+         * Embed readspeaker helper script
+         */
         wp_register_script(
             'readspeaker-helper',
             READSPEAKERHELPER_URL . '/dist/js/readspeaker-helper.min.js',
@@ -87,9 +93,12 @@ class App
             get_field('readspeaker-helper-script-footer', 'option')
         );
 
+        /**
+         * Localization
+         */
         wp_localize_script('readspeaker-helper', 'readspeakerHelper', array(
-            'play' => 'Lyssna',
-            'stop' => 'Sluta lyssna'
+            'play' => __('Listen', 'readspeaker-helper'),
+            'stop' => __('Stop listening', 'readspeaker-helper')
         ));
 
         wp_enqueue_script('readspeaker-helper');

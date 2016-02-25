@@ -13,13 +13,13 @@ ReadSpeakerHelper.Player = (function ($) {
                 rspkrElm = $rs.get(playButtonSelector);
 
                 rspkr.c.addEvent('onUIClosePlayer', function() {
-                    rspkrElm.innerHTML = 'Lyssna';
+                    rspkrElm.innerHTML = readspeakerHelper.play;
                     $rs.setAttr(rspkrElm, 'onclick', 'readpage(this.href, "' + playerSelector + '"); return false;');
                     rspkrElm.onclick = new Function('readpage(this.href, "' + playerSelector + '"); return false;');
                 });
 
                 rspkr.c.addEvent('onUIShowPlayer', function() {
-                    rspkrElm.innerHTML = 'Sluta lyssna';
+                    rspkrElm.innerHTML = readspeakerHelper.stop;
                     $rs.setAttr(rspkrElm, 'onclick', 'rspkr.ui.getActivePlayer().close(); return false;');
                     rspkrElm.onclick = new Function("rspkr.ui.getActivePlayer().close(); return false;");
                 });
