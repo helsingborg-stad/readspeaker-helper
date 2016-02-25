@@ -15,6 +15,18 @@ class App
             return $paths;
         });
 
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
+        if (!is_plugin_active('advanced-custom-fields-pro/acf.php')
+            && !is_plugin_active('advanced-custom-fields/acf.php')
+        ) {
+            add_action('admin_notices', function () {
+                echo '<div class="notice error"><p>' .
+                        __('The ReadSpeaker Helper plugin requires you to have the <a href="http://www.advancedcustomfields.com/pro/" target="_blank">Advanced Custom Fields</a> plugin installed and activated.', 'readspeaker-helper') .
+                     '</p></div>';
+            });
+            return;
+        }
+
         new \ReadSpeakerHelper\Options();
 
         if (is_array(get_field('readspeaker-helper-enable-posttypes', 'option'))) {

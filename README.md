@@ -1,5 +1,7 @@
 # ReadSpeaker Helper
 
+**Note: This plugin requires Advanced Custom Fields to be installed.**
+
 A helper which will help you include the ReadSpeaker.com readspeaker solution to you WordPress site.
 
 ## Action reference
