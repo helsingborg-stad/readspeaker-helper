@@ -74,7 +74,7 @@ class App
      */
     public static function getPlayer()
     {
-        $player = '<div id="' . self::$playerId . '" class="rs_skip rs_preserve"></div>';
+        $player = '<div id="' . self::$playerId . '" class="readspeaker-player-element rs_skip rs_preserve"></div>';
         return apply_filters('ReadSpeakerPlayer/player_element', $player);
     }
 
