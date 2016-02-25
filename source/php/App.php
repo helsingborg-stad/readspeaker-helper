@@ -10,6 +10,11 @@ class App
 
     public function __construct()
     {
+        add_filter('acf/settings/load_json', function ($paths) {
+            $paths[] = READSPEAKERHELPER_PATH . '/acf-exports';
+            return $paths;
+        });
+
         new \ReadSpeakerHelper\Options();
 
         if (is_array(get_field('readspeaker-helper-enable-posttypes', 'option'))) {
