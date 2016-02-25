@@ -7,8 +7,8 @@
  * Version:           1.0.0
  * Author:            Kristoffer Svanmark
  * Author URI:        https://github.com/helsingborg-stad
- * License:           MIT
- * License URI:       https://opensource.org/licenses/MIT
+ * License:           Apache License 2.0
+ * License URI:       http://www.apache.org/licenses/LICENSE-2.0
  * Text Domain:       readspeaker-helper
  * Domain Path:       /languages
  */
