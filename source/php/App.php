@@ -59,6 +59,7 @@ class App
      */
     public static function getPlayButton($classes = array())
     {
+        $classes = array_merge(array('readspeaker-play-button'), $classes);
         $classes = apply_filters('ReadSpeakerHelper/play_button_class', $classes);
         $classes = implode(' ', $classes);
 
