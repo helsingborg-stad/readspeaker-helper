@@ -24,9 +24,13 @@ class App
 
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
-        add_filter('the_content', function ($content) {
-            return $this->getReadSpeakerTag() . $content;
-        });
+        switch (get_field('readspeaker-helper-placement', 'option')) {
+            case 'the_content':
+                add_filter('the_content', function ($content) {
+                    return $this->getReadSpeakerTag() . $content;
+                });
+                break;
+        }
     }
 
     public function getReadSpeakerTag()
@@ -40,9 +44,12 @@ class App
         return $readspeakerTag;
     }
 
-    public static function getPlayButton()
+    public static function getPlayButton($classes = array())
     {
-        return '<a id="' . self::$playButtonId . '" onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=sv_se&amp;readid=article&amp;url=' . self::currentUrl() . '">' . __('Listen', 'readspeaker-helper') . '</a>';
+        $classes = apply_filters('ReadSpeakerHelper/play_button_class', $classes);
+        $classes = implode(' ', $classes);
+
+        return '<a id="' . self::$playButtonId . '" onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=sv_se&amp;readid=article&amp;url=' . self::currentUrl() . '" class="' . $classes . '">' . __('Listen', 'readspeaker-helper') . '</a>';
     }
 
     public static function getPlayer()
