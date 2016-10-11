@@ -52,6 +52,12 @@ class App
         switch (get_field('readspeaker-helper-placement', 'option')) {
             case 'the_content':
                 add_filter('the_content', function ($content) {
+                    global $wp_query;
+
+                    if (!is_single() || !in_the_loop() || !is_main_query() || is_comment_feed()) {
+                        return $content;
+                    }
+
                     do_action('ReadSpeakerHelper/before_the_readspeaker');
                     return $this->getReadSpeakerTag() . '<div id="' . self::$readWrapperId . '">' . $content . '</div>';
                 });
@@ -106,7 +112,6 @@ class App
      */
     public function enqueueStyles()
     {
-
     }
 
     /**
