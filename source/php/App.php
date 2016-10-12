@@ -85,7 +85,7 @@ class App
         $classes = apply_filters('ReadSpeakerHelper/play_button_class', $classes);
         $classes = implode(' ', $classes);
 
-        $playButton = '<a id="' . self::$playButtonId . '" onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="http://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=' . get_locale() . '&amp;readid=' . self::$readWrapperId . '&amp;url=' . self::currentUrl() . '" class="' . $classes . '">' . __('Listen', 'readspeaker-helper') . '</a>';
+        $playButton = '<a id="' . self::$playButtonId . '"  onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="//app-eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=sv_SE&amp;readid=' . self::$readWrapperId . '&amp;url=' . self::currentUrl() . '" class="' . $classes . '">' . __('Listen', 'readspeaker-helper') . '</a>';
 
         return apply_filters('ReadSpeakerPlayer/play_button', $playButton);
     }
@@ -125,7 +125,7 @@ class App
          */
         wp_register_script(
             'readspeaker',
-            'http://f1.eu.readspeaker.com/script/' . self::$customerId . '/ReadSpeaker.js?pids=embhl',
+            '//f1-eu.readspeaker.com/script/' . self::$customerId . '/ReadSpeaker.js?pids=embhl',
             array(),
             '1.0.0',
             get_field('readspeaker-helper-script-footer', 'option')
@@ -137,8 +137,8 @@ class App
          */
         wp_register_script(
             'readspeaker-helper',
-            READSPEAKERHELPER_URL . '/dist/js/readspeaker-helper.dev.js',
-            array('jquery', 'readspeaker'),
+            READSPEAKERHELPER_URL . '/dist/js/readspeaker-helper.min.js',
+            array('jquery'),
             '1.0.0',
             get_field('readspeaker-helper-script-footer', 'option')
         );
