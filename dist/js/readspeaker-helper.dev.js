@@ -14,16 +14,16 @@ ReadSpeakerHelper.Player = (function ($) {
 
                 rspkr.c.addEvent('onUIClosePlayer', function() {
                     rspkrElm.innerHTML = readspeakerHelper.play;
-                    $(rspkrElm).removeClass('readspeaker-is-playing');
                     $rs.setAttr(rspkrElm, 'onclick', 'readpage(this.href, "' + playerSelector + '"); return false;');
                     rspkrElm.onclick = new Function('readpage(this.href, "' + playerSelector + '"); return false;');
+                    $(rspkrElm).removeClass('readspeaker-is-playing');
                 });
 
                 rspkr.c.addEvent('onUIShowPlayer', function() {
                     rspkrElm.innerHTML = readspeakerHelper.stop;
-                    $(rspkrElm).addClass('readspeaker-is-playing');
                     $rs.setAttr(rspkrElm, 'onclick', 'rspkr.ui.getActivePlayer().close(); return false;');
                     rspkrElm.onclick = new Function("rspkr.ui.getActivePlayer().close(); return false;");
+                    $(rspkrElm).addClass('readspeaker-is-playing');
                 });
             });
         });
