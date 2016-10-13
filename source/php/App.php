@@ -142,7 +142,7 @@ class App
          */
         wp_register_script(
             'readspeaker-helper',
-            READSPEAKERHELPER_URL . '/dist/js/readspeaker-helper.min.js',
+            READSPEAKERHELPER_URL . '/dist/js/readspeaker-helper.dev.js',
             array('jquery'),
             '1.0.0',
             get_field('readspeaker-helper-script-footer', 'option')
