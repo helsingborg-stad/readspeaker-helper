@@ -11,11 +11,13 @@ class App
 
     public function __construct()
     {
+        //Load json
         add_filter('acf/settings/load_json', function ($paths) {
             $paths[] = READSPEAKERHELPER_PATH . '/acf-exports';
             return $paths;
         });
 
+        //Error notices
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (!is_plugin_active('advanced-custom-fields-pro/acf.php')
             && !is_plugin_active('advanced-custom-fields/acf.php')
@@ -28,11 +30,14 @@ class App
             return;
         }
 
-        new \ReadSpeakerHelper\Options();
+        //Load app
+        add_action('init', function () {
+            new \ReadSpeakerHelper\Options();
 
-        if (is_array(get_field('readspeaker-helper-enable-posttypes', 'option'))) {
-            $this->init();
-        }
+            if (is_array(get_field('readspeaker-helper-enable-posttypes', 'option'))) {
+                $this->init();
+            }
+        });
     }
 
     /**
