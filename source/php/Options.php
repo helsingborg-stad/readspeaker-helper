@@ -23,7 +23,7 @@ class Options
 
     public function loadPostTypesToCheckbox($field)
     {
-        $field['choices'] = array_diff(get_post_types(array(), 'names'), array("revision", "acf-field", "acf-field-group", "nav_menu_item"));
+        $field['choices'] = array_diff(get_post_types(array('public'=>true), 'names'), array("revision", "acf-field", "acf-field-group", "nav_menu_item",'attachment'));
         return $field;
     }
 }
