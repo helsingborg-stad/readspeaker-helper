@@ -12,6 +12,10 @@ class App
 
     public function __construct()
     {
+        if (is_multisite()) {
+            self::$optionsFrom = SITE_ID_CURRENT_SITE;
+        }
+
         //Load json
         add_filter('acf/settings/load_json', function ($paths) {
             $paths[] = READSPEAKERHELPER_PATH . '/acf-exports';
@@ -33,7 +37,7 @@ class App
 
         //Load app
         add_action('init', function () {
-            new \ReadSpeakerHelper\Options();
+            $options = new \ReadSpeakerHelper\Options();
 
             if (is_array(self::getOption('options_readspeaker-helper-enable-posttypes'))) {
                 $this->init();
@@ -171,12 +175,12 @@ class App
         return home_url(add_query_arg(array(), $wp->request));
     }
 
-    public static function getOption($optionName, $blogId = null, $default = null)
+    public static function getOption($optionName, $default = null)
     {
         $value = false;
 
-        if ($siteId) {
-            $value = get_blog_option($blogId, $optionName, $default);
+        if (self::$optionsFrom) {
+            $value = get_blog_option(self::$optionsFrom, $optionName, $default);
         } else {
             $value = get_option($optionName, $default);
         }

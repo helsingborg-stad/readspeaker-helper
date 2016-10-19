@@ -19,7 +19,6 @@ class Options
 
 
             if (!is_multisite() || (is_multisite() && is_main_site())) {
-                App::$optionsFrom = SITE_ID_CURRENT_SITE;
                 acf_add_options_page($args);
             }
         }
