@@ -4,6 +4,9 @@
 
 A helper which will help you include the ReadSpeaker.com readspeaker solution to you WordPress site.
 
+## Multisite support
+The default behaviour for multisites is that the settings is loaded from each and every site on it's own. Use the filter "ReadSpeakerHelper\multisite_load" to set multisite loading to "true" if you want to load the settings from the main blog for all blogs.
+
 ## Action reference
 
 #### ReadSpeakerHelper/before_the_readspeaker

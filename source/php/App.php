@@ -4,7 +4,9 @@ namespace ReadSpeakerHelper;
 
 class App
 {
+    public static $multisiteLoad = false;
     public static $optionsFrom = null;
+
     private static $customerId = null;
     private static $playButtonId = 'readspeaker-play-button';
     private static $playerId = 'readspeaker-player-element';
@@ -12,10 +14,6 @@ class App
 
     public function __construct()
     {
-        if (is_multisite()) {
-            self::$optionsFrom = SITE_ID_CURRENT_SITE;
-        }
-
         //Load json
         add_filter('acf/settings/load_json', function ($paths) {
             $paths[] = READSPEAKERHELPER_PATH . '/acf-exports';
@@ -37,6 +35,12 @@ class App
 
         //Load app
         add_action('init', function () {
+            self::$multisiteLoad = apply_filters('ReadSpeakerHelper\multisite_load', false);
+
+            if (is_multisite() && self::$multisiteLoad) {
+                self::$optionsFrom = SITE_ID_CURRENT_SITE;
+            }
+
             $options = new \ReadSpeakerHelper\Options();
 
             if (is_array(self::getOption('options_readspeaker-helper-enable-posttypes'))) {
