@@ -4,6 +4,7 @@ namespace ReadSpeakerHelper;
 
 class App
 {
+    public static $optionsFrom = null;
     private static $customerId = null;
     private static $playButtonId = 'readspeaker-play-button';
     private static $playerId = 'readspeaker-player-element';
@@ -34,7 +35,7 @@ class App
         add_action('init', function () {
             new \ReadSpeakerHelper\Options();
 
-            if (is_array(get_field('readspeaker-helper-enable-posttypes', 'option'))) {
+            if (is_array(self::getOption('options_readspeaker-helper-enable-posttypes'))) {
                 $this->init();
             }
         });
@@ -46,15 +47,15 @@ class App
      */
     public function init()
     {
-        self::$customerId = get_field('readspeaker-helper-customer-id', 'option');
+        self::$customerId = self::getOption('options_readspeaker-helper-customer-id');
 
-        if (get_field('readspeaker-helper-read-wrapper-id', 'option')) {
-            self::$readWrapperId = get_field('readspeaker-helper-read-wrapper-id', 'option');
+        if (self::getOption('options_readspeaker-helper-read-wrapper-id')) {
+            self::$readWrapperId = self::getOption('options_readspeaker-helper-read-wrapper-id');
         }
 
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
-        switch (get_field('readspeaker-helper-placement', 'option')) {
+        switch (self::getOption('options_readspeaker-helper-placement')) {
             case 'the_content':
                 add_filter('the_content', function ($content) {
                     global $wp_query;
@@ -125,7 +126,7 @@ class App
      */
     public function enqueueScripts()
     {
-        $posttypesEnabled = get_field('readspeaker-helper-enable-posttypes', 'option');
+        $posttypesEnabled = self::getOption('options_readspeaker-helper-enable-posttypes');
         if (!is_array($posttypesEnabled) || !in_array(get_post_type(), $posttypesEnabled)) {
             return;
         }
@@ -138,7 +139,7 @@ class App
             '//f1-eu.readspeaker.com/script/' . self::$customerId . '/ReadSpeaker.js?pids=embhl',
             array(),
             '1.0.0',
-            get_field('readspeaker-helper-script-footer', 'option')
+            self::getOption('options_readspeaker-helper-script-footer')
         );
         wp_enqueue_script('readspeaker');
 
@@ -150,7 +151,7 @@ class App
             READSPEAKERHELPER_URL . '/dist/js/readspeaker-helper.dev.js',
             array('jquery'),
             '1.0.0',
-            get_field('readspeaker-helper-script-footer', 'option')
+            self::getOption('options_readspeaker-helper-script-footer')
         );
 
         /**
@@ -168,5 +169,22 @@ class App
     {
         global $wp;
         return home_url(add_query_arg(array(), $wp->request));
+    }
+
+    public static function getOption($optionName, $blogId = null, $default = null)
+    {
+        $value = false;
+
+        if ($siteId) {
+            $value = get_blog_option($blogId, $optionName, $default);
+        } else {
+            $value = get_option($optionName, $default);
+        }
+
+        if (is_serialized($value)) {
+            return unserialize($value);
+        }
+
+        return $value;
     }
 }
