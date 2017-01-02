@@ -68,7 +68,7 @@ class App
                 add_filter('the_content', function ($content) {
                     global $wp_query;
 
-                    if (!is_single() || !in_the_loop() || !is_main_query() || is_comment_feed()) {
+                    if (!in_array(get_post_type(), (array) self::getOption('options_readspeaker-helper-enable-posttypes')) || !in_the_loop() || !is_main_query() || is_comment_feed()) {
                         return $content;
                     }
 
