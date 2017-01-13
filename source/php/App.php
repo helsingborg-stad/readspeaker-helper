@@ -9,7 +9,6 @@ class App
 
     private static $customerId = null;
     private static $playButtonId = 'readspeaker-play-button';
-    private static $playerId = 'readspeaker-player-element';
     private static $readWrapperId = 'readspeaker-read';
 
     public function __construct()
@@ -88,7 +87,6 @@ class App
         // Readspeaker tag markup
         $readspeakerTag = '<div class="readspeaker-wrapper">';
         $readspeakerTag .= self::getPlayButton();
-        $readspeakerTag .= self::getPlayer();
         $readspeakerTag .= '</div>';
 
         return apply_filters('ReadSpeakerHelper/readspeaker_tag', $readspeakerTag);
@@ -105,19 +103,9 @@ class App
         $classes = apply_filters('ReadSpeakerHelper/play_button_class', $classes);
         $classes = implode(' ', $classes);
 
-        $playButton = '<a id="' . self::$playButtonId . '"  onclick="javascript:readpage(this.href, \'' . self::$playerId . '\'); return false;" href="//app-eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=' .get_locale(). '&amp;readid=' . self::$readWrapperId . '&amp;url=' . self::currentUrl() . '" class="' . $classes . '">' . __('Listen', 'readspeaker-helper') . '</a>';
+        $playButton = '<div class="rsbtn rs_skip rs_preserve"><a id="' . self::$playButtonId . '" href="//app-eu.readspeaker.com/cgi-bin/rsent?customerid=' . self::$customerId . '&amp;lang=' .get_locale(). '&amp;readid=' . self::$readWrapperId . '&amp;url=' . self::currentUrl() . '" class="' . $classes . '">' . __('Listen', 'readspeaker-helper') . '</a></div>';
 
         return apply_filters('ReadSpeakerPlayer/play_button', $playButton);
-    }
-
-    /**
-     * Get the player element
-     * @return string
-     */
-    public static function getPlayer()
-    {
-        $player = '<div id="' . self::$playerId . '" class="readspeaker-player-element rs_skip rs_preserve"></div>';
-        return apply_filters('ReadSpeakerPlayer/player_element', $player);
     }
 
     /**
@@ -144,33 +132,12 @@ class App
          */
         wp_register_script(
             'readspeaker',
-            '//f1-eu.readspeaker.com/script/' . self::$customerId . '/ReadSpeaker.js?pids=embhl',
+            '//f1-eu.readspeaker.com/script/' . self::$customerId . '/ReadSpeaker.js?pids=embhl&jit=1',
             array(),
             '1.0.0',
             self::getOption('options_readspeaker-helper-script-footer')
         );
         wp_enqueue_script('readspeaker');
-
-        /**
-         * Embed readspeaker helper script
-         */
-        wp_register_script(
-            'readspeaker-helper',
-            READSPEAKERHELPER_URL . '/dist/js/readspeaker-helper.dev.js',
-            array('jquery'),
-            '1.0.0',
-            self::getOption('options_readspeaker-helper-script-footer')
-        );
-
-        /**
-         * Localization
-         */
-        wp_localize_script('readspeaker-helper', 'readspeakerHelper', array(
-            'play' => __('Listen', 'readspeaker-helper'),
-            'stop' => __('Stop listening', 'readspeaker-helper')
-        ));
-
-        wp_enqueue_script('readspeaker-helper');
     }
 
     public static function currentUrl()

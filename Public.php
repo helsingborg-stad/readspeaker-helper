@@ -7,11 +7,3 @@ if (!function_exists('ReadSpeakerHelper_playButton')) {
         echo \ReadSpeakerHelper\App::getPlayButton($classes);
     }
 }
-
-if (!function_exists('ReadSpeakerHelper_player')) {
-    function ReadSpeakerHelper_player()
-    {
-        do_action('ReadSpeakerHelper/before_the_player_element');
-        echo \ReadSpeakerHelper\App::getPlayer();
-    }
-}
