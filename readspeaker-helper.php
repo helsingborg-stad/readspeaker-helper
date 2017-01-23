@@ -4,7 +4,7 @@
  * Plugin Name:       ReadSpeaker Helper
  * Plugin URI:        https://github.com/helsingborg-stad
  * Description:       A helper which will help you include the ReadSpeaker.com readspeaker solution to you WordPress site
- * Version:           1.0.0
+ * Version:           2.0.1
  * Author:            Kristoffer Svanmark
  * Author URI:        https://github.com/helsingborg-stad
  * License:           Apache License 2.0
