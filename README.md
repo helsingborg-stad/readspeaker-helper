@@ -1,4 +1,4 @@
-# ReadSpeaker Helper
+# DEPRECATED - ReadSpeaker Helper
 
 **Note: This plugin requires Advanced Custom Fields to be installed.**
 
